@@ -3,92 +3,216 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Akademia Tenzil — Ndihmë / Support</title>
+<title>Akademia Tenzil</title>
+<meta name="description" content="Akademia Tenzil — aplikacion për menaxhimin e shkollës së Kuranit. Faqja është në ndërtim.">
+<meta name="theme-color" content="#123F33">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Akademia Tenzil">
+<meta property="og:description" content="Aplikacion për menaxhimin e shkollës së Kuranit.">
+<meta property="og:image" content="/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
 <style>
-  :root { --cream:#F4F0E6; --ink:#12332E; --green:#1E5A4B; --gold:#B08A4C; --mute:#6B7B72; --line:#DFD9C9; }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--cream); color:var(--ink);
-         font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
-  .wrap { max-width:680px; margin:0 auto; padding:56px 22px 80px; }
-  header { border-bottom:1px solid var(--line); padding-bottom:24px; margin-bottom:32px; }
-  h1 { font-size:30px; margin:0 0 6px; letter-spacing:-.01em; }
-  h2 { font-size:19px; margin:34px 0 10px; color:var(--green); }
-  .sub { color:var(--mute); margin:0; }
-  .tag { display:inline-block; font-size:12px; font-weight:600; color:var(--gold);
-         letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
-  a { color:var(--green); }
-  ul { padding-left:20px; }
-  li { margin:6px 0; }
-  .card { background:#FBF9F3; border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:18px 0; }
-  .mail { font-size:18px; font-weight:600; }
-  footer { margin-top:48px; padding-top:20px; border-top:1px solid var(--line);
-           color:var(--mute); font-size:14px; }
-  .en { color:var(--mute); }
+  /* ---- brand type, self-hosted: no third-party font requests ---- */
+  @font-face { font-family:"Cinzel"; src:url("/assets/fonts/Cinzel.woff2") format("woff2");
+               font-weight:400 700; font-display:swap; }
+  @font-face { font-family:"Cormorant"; src:url("/assets/fonts/CormorantGaramond-SemiBold.woff2") format("woff2");
+               font-weight:600; font-display:swap; }
+  @font-face { font-family:"Manrope"; src:url("/assets/fonts/Manrope-Medium.woff2") format("woff2");
+               font-weight:500; font-display:swap; }
+
+  :root {
+    --cream:#F4F0E6; --ink:#22302A; --emerald:#1E5A4B; --deep:#123F33;
+    --gold:#B08A4C; --gold-dark:#8A6D3B; --sage:#E7EDE4; --muted:#7B897F;
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+
+  * { box-sizing:border-box; }
+  html, body { height:100%; }
+  body {
+    margin:0;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    background:var(--deep);
+    color:var(--cream);
+    font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+
+  /* ---- atmosphere: one warm pool of light behind the mark, darker at the edges ---- */
+  .glow {
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(58% 44% at 50% 34%, rgba(30,90,75,.95) 0%, rgba(30,90,75,0) 68%),
+      radial-gradient(28% 20% at 50% 30%, rgba(176,138,76,.16) 0%, rgba(176,138,76,0) 70%),
+      radial-gradient(120% 90% at 50% 50%, rgba(0,0,0,0) 42%, rgba(6,26,21,.72) 100%);
+    animation:breathe 11s var(--ease) infinite alternate;
+  }
+  @keyframes breathe { from { transform:scale(1); opacity:.92; } to { transform:scale(1.07); opacity:1; } }
+
+  /* film grain — fixed layer only, never over scrolling content */
+  .grain {
+    position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  main {
+    position:relative; z-index:2;
+    flex:1;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:96px 24px 32px;
+    text-align:center;
+  }
+
+  /* ---- the mark, seated in a machined double bezel ---- */
+  .badge {
+    padding:9px;
+    border-radius:38px;
+    background:linear-gradient(160deg, rgba(244,240,230,.14), rgba(244,240,230,.03));
+    box-shadow:
+      inset 0 1px 0 rgba(244,240,230,.20),
+      0 2px 4px rgba(6,26,21,.30),
+      0 28px 70px -18px rgba(6,26,21,.85),
+      0 0 90px -30px rgba(176,138,76,.35);
+    animation:float 8s var(--ease) infinite alternate;
+  }
+  .badge-inner {
+    width:clamp(124px, 25vw, 168px);
+    aspect-ratio:1;
+    border-radius:29px;           /* 38 − 9, concentric with the shell */
+    overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(6,26,21,.35);
+  }
+  .badge-inner img { display:block; width:100%; height:100%; }
+  @keyframes float { from { transform:translateY(0); } to { transform:translateY(-9px); } }
+
+  .eyebrow {
+    margin:38px 0 0;
+    font-size:10px; font-weight:500;
+    letter-spacing:.34em; text-transform:uppercase; text-indent:.34em;
+    color:var(--gold);
+  }
+
+  h1 {
+    margin:14px 0 0;
+    font-family:"Cinzel",Georgia,serif;
+    font-weight:400;
+    font-size:clamp(26px, 7.2vw, 46px);
+    letter-spacing:.26em; text-indent:.26em;
+    text-transform:uppercase;
+    line-height:1.24;
+    color:var(--cream);
+  }
+
+  /* hairline rule broken by the diamond from the logo */
+  .rule {
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    width:min(230px, 62vw); margin:26px auto 0;
+  }
+  .rule::before, .rule::after {
+    content:""; flex:1; height:1px;
+    background:linear-gradient(90deg, rgba(176,138,76,0), rgba(176,138,76,.6));
+  }
+  .rule::after { background:linear-gradient(90deg, rgba(176,138,76,.6), rgba(176,138,76,0)); }
+  .rule i { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); }
+
+  .lede {
+    margin:24px 0 0;
+    font-family:"Cormorant",Georgia,serif;
+    font-weight:600;
+    font-size:clamp(23px, 5.4vw, 32px);
+    line-height:1.35;
+    color:var(--sage);
+    text-wrap:balance;
+  }
+
+  .sub {
+    margin:14px auto 0;
+    max-width:38ch;
+    font-size:14px; line-height:1.7;
+    color:var(--muted);
+    text-wrap:balance;
+  }
+  .sub.en { margin-top:6px; font-size:12.5px; opacity:.72; }
+
+  /* ---- the two links: present, but quiet ---- */
+  footer {
+    position:relative; z-index:2;
+    display:flex; align-items:center; justify-content:center; gap:20px;
+    padding:0 24px 44px;
+  }
+  footer a {
+    position:relative;
+    font-size:11px; font-weight:500;
+    letter-spacing:.2em; text-transform:uppercase; text-indent:.2em;
+    color:var(--muted); text-decoration:none;
+    padding:6px 2px;
+    transition:color .5s var(--ease);
+  }
+  footer a::after {
+    content:""; position:absolute; left:0; right:0; bottom:0; height:1px;
+    background:var(--gold);
+    transform:scaleX(0); transform-origin:center;
+    transition:transform .55s var(--ease);
+    opacity:.7;
+  }
+  footer a:hover, footer a:focus-visible { color:var(--cream); }
+  footer a:hover::after, footer a:focus-visible::after { transform:scaleX(1); }
+  footer a:focus-visible { outline:none; }
+  footer .dot { width:3px; height:3px; background:var(--gold); opacity:.5; transform:rotate(45deg); }
+
+  /* ---- entrance: nothing appears statically ---- */
+  .rise { opacity:0; animation:rise 1.15s var(--ease) forwards; }
+  @keyframes rise {
+    from { opacity:0; transform:translateY(22px); filter:blur(9px); }
+    to   { opacity:1; transform:translateY(0);    filter:blur(0); }
+  }
+  .d1 { animation-delay:.05s } .d2 { animation-delay:.28s } .d3 { animation-delay:.40s }
+  .d4 { animation-delay:.52s } .d5 { animation-delay:.64s } .d6 { animation-delay:.80s }
+
+  @media (prefers-reduced-motion:reduce) {
+    .rise { opacity:1; animation:none; }
+    .glow, .badge { animation:none; }
+    * { transition-duration:.01ms !important; }
+  }
+
+  @media (max-width:420px) {
+    main { padding:72px 20px 24px; }
+    footer { gap:14px; padding-bottom:34px; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <span class="tag">Akademia Tenzil</span>
-    <h1>Ndihmë dhe kontakt</h1>
-    <p class="sub">Aplikacion për menaxhimin e shkollës së Kuranit.</p>
-  </header>
+<div class="glow"></div>
+<div class="grain"></div>
 
-  <div class="card">
-    <p style="margin:0 0 6px"><strong>Na shkruani</strong></p>
-    <p class="mail" style="margin:0"><a href="mailto:akademiatenzil@gmail.com">akademiatenzil@gmail.com</a></p>
-    <p class="sub" style="margin:8px 0 0">Përgjigjemi zakonisht brenda 2 ditësh pune.</p>
+<main>
+  <div class="badge rise d1">
+    <div class="badge-inner">
+      <img src="/assets/appicon-512.png" alt="Akademia Tenzil" width="512" height="512">
+    </div>
   </div>
 
-  <h2>Si të kyçem?</h2>
-  <p>
-    Llogaritë krijohen nga shkolla, jo nga aplikacioni. Nuk ka regjistrim publik.
-    Mësuesi kyçet me email-in e vet, ndërsa nxënësi kyçet me emrin e përdoruesit
-    që ia jep mësuesi. Nëse nuk keni të dhëna kyçjeje, kontaktoni shkollën tuaj.
-  </p>
+  <p class="eyebrow rise d2">Së shpejti</p>
+  <h1 class="rise d3">Akademia Tenzil</h1>
+  <div class="rule rise d4"><i></i></div>
 
-  <h2>Kam harruar fjalëkalimin</h2>
-  <p>
-    Mësuesi ose administratori mund ta ndryshojë fjalëkalimin e nxënësit
-    brenda aplikacionit, te profili i nxënësit. Për llogarinë e mësuesit,
-    na shkruani në adresën më lart.
-  </p>
+  <p class="lede rise d5">Faqja është në ndërtim.</p>
+  <p class="sub rise d5">Aplikacion për menaxhimin e shkollës së Kuranit.</p>
+  <p class="sub en rise d5">Our website is under construction.</p>
+</main>
 
-  <h2>Nuk po marr njoftime</h2>
-  <p>
-    Kontrolloni që njoftimet të jenë të lejuara: Settings, pastaj Tenzil,
-    pastaj Notifications. Njoftimet u dërgohen nxënësve nga mësuesi i tyre,
-    prandaj duhet të jeni të kyçur me llogarinë e nxënësit.
-  </p>
+<footer class="rise d6">
+  <a href="/support">Ndihmë</a>
+  <span class="dot"></span>
+  <a href="/privacy-policy">Privatësia</a>
+</footer>
 
-  <h2>Fshirja e llogarisë dhe e të dhënave</h2>
-  <p>
-    Llogaritë i menaxhon shkolla. Administratori mund të fshijë një nxënës
-    brenda aplikacionit. Për të kërkuar fshirjen e llogarisë suaj ose të të
-    dhënave tuaja, na shkruani në
-    <a href="mailto:akademiatenzil@gmail.com">akademiatenzil@gmail.com</a>.
-  </p>
-
-  <h2>Privatësia</h2>
-  <p>
-    Lexoni <a href="privacy.html">politikën e privatësisë</a>. Aplikacioni nuk ka
-    reklama, nuk ka gjurmues dhe nuk i shet të dhënat e askujt.
-  </p>
-
-  <h2 class="en">In English</h2>
-  <p class="en">
-    Akademia Tenzil is a private management app for a Qur'an school. Accounts are
-    created by the school, not through public sign-up, so there is nothing to
-    register here. For any question, password reset or data deletion request,
-    email <a href="mailto:akademiatenzil@gmail.com">akademiatenzil@gmail.com</a>.
-    See also our <a href="privacy.html">privacy policy</a>.
-  </p>
-
-  <footer>
-    Akademia Tenzil · <a href="mailto:akademiatenzil@gmail.com">akademiatenzil@gmail.com</a>
-  </footer>
-
-</div>
 </body>
 </html>
