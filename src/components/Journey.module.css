@@ -1,0 +1,89 @@
+.section {
+  position: relative;
+  padding: var(--pad-y) var(--pad-x);
+  background: var(--card);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.title {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 4.4vw, 4.2rem);
+  line-height: 1.1;
+  max-width: 20ch;
+  margin-bottom: clamp(48px, 7vw, 110px);
+}
+
+.rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 7vw, 104px);
+  padding-left: clamp(0px, 3vw, 56px);
+}
+
+.line {
+  left: clamp(0px, 3vw, 56px);
+  top: 6px;
+  bottom: 6px;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: clamp(14px, 3vw, 56px);
+  padding-left: clamp(24px, 4vw, 64px);
+}
+
+/* Each successive stage is indented further so the eye walks diagonally down.
+   The clamp collapses the offset to 0 on mobile with no media query. */
+.stage:nth-child(3) {
+  margin-left: clamp(0px, 3vw, 7%);
+}
+.stage:nth-child(4) {
+  margin-left: clamp(0px, 3vw, 14%);
+}
+.stage:nth-child(5) {
+  margin-left: clamp(0px, 3vw, 21%);
+}
+
+.node {
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 10px;
+  height: 10px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  margin-left: -4px;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+}
+
+.num {
+  font-family: var(--font-cinzel);
+  font-size: clamp(2.6rem, 5vw, 4.6rem);
+  line-height: 0.9;
+  color: rgba(30, 90, 75, 0.2);
+}
+
+.stageTitle {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2vw, 1.9rem);
+  line-height: 1.2;
+  max-width: 16ch;
+}
+
+.desc {
+  max-width: 52ch;
+  font-size: clamp(16px, 1.1vw, 18.5px);
+  color: var(--body);
+  align-self: center;
+}

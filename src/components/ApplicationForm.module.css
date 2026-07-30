@@ -1,0 +1,195 @@
+.panel {
+  background: var(--card);
+  color: var(--ink);
+  padding: clamp(22px, 3vw, 40px);
+  border-radius: 2px;
+  box-shadow: 0 70px 140px -90px rgba(0, 0, 0, 0.8);
+}
+
+.form {
+  display: grid;
+  gap: clamp(14px, 2vw, 20px);
+}
+
+.formLabel {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: clamp(14px, 2vw, 20px);
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.label {
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  color: var(--body);
+}
+
+.input {
+  width: 100%;
+  padding: 13px 14px;
+  background: var(--cream);
+  border: 1px solid rgba(30, 90, 75, 0.16);
+  border-radius: 2px;
+  font-size: 16px; /* 16px prevents the iOS focus zoom */
+  min-height: 48px;
+  transition: border-color 0.35s var(--ease);
+}
+
+.input:focus {
+  border-color: var(--gold);
+  outline: none;
+}
+
+.textarea {
+  composes: input;
+  font-family: var(--font-body);
+  resize: vertical;
+}
+
+/* Reserved error slot, so validation never shifts the layout. */
+.error {
+  font-size: 12.5px;
+  color: var(--red);
+  min-height: 1em;
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.legend {
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  color: var(--body);
+  padding: 0 0 4px;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill {
+  padding: 11px 20px;
+  min-height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(30, 90, 75, 0.2);
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: all 0.4s var(--ease);
+}
+
+.pill:hover {
+  border-color: var(--gold);
+}
+
+.pill:active {
+  transform: scale(0.97);
+}
+
+.pill[aria-pressed='true'] {
+  background: var(--emerald-deep);
+  color: var(--card);
+  border-color: var(--emerald-deep);
+}
+
+.banner {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(192, 91, 77, 0.35);
+  background: rgba(192, 91, 77, 0.06);
+  font-size: 14.5px;
+  color: var(--red-text);
+  border-radius: 2px;
+}
+
+.submit {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+  padding: 15px 16px 15px 28px;
+  min-height: 54px;
+  border: none;
+  border-radius: 999px;
+  background: var(--emerald-deep);
+  color: var(--card);
+  font-family: var(--font-cinzel);
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.5s var(--ease);
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--emerald);
+}
+
+.submit:active:not(:disabled) {
+  transform: scale(0.975);
+}
+
+.submit:disabled {
+  cursor: progress;
+  opacity: 0.85;
+}
+
+.consent {
+  font-size: 12.5px;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+/* Honeypot: off-screen, never announced, never tab-reachable. */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Success state */
+.success {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-start;
+  padding: clamp(20px, 3vw, 36px);
+  border: 1px solid rgba(176, 138, 76, 0.3);
+  animation: tz-in 0.7s var(--ease) both;
+}
+
+.successTitle {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+  line-height: 1.15;
+  color: var(--emerald);
+}
+
+.successBody {
+  font-size: 16.5px;
+  color: var(--body);
+  max-width: 44ch;
+}

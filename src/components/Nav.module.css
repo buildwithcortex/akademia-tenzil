@@ -1,0 +1,290 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 70;
+  display: flex;
+  justify-content: center;
+  padding: clamp(12px, 2vw, 20px) clamp(16px, 3vw, 32px);
+  pointer-events: none;
+}
+
+/* Expanded (default). Only max-width is animated: 100% → auto is not
+   interpolatable and would snap in a single frame. `gap` is never animated:
+   it stutters. */
+.pill {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.6vw, 26px);
+  width: 100%;
+  max-width: 1200px;
+  padding: 9px 9px 9px 16px;
+  border-radius: 999px;
+  background: rgba(251, 250, 244, 0.86);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid var(--hairline);
+  box-shadow:
+    0 1px 2px rgba(18, 63, 51, 0.05),
+    0 20px 44px -28px rgba(18, 63, 51, 0.28);
+  transition:
+    box-shadow 1.15s var(--ease),
+    background 1.15s var(--ease),
+    backdrop-filter 1.15s var(--ease),
+    padding 1.15s var(--ease),
+    max-width 1.15s var(--ease),
+    border-color 1.15s var(--ease);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  margin-right: auto;
+  flex: none;
+  min-width: 0;
+}
+
+.brand:hover {
+  color: var(--ink);
+}
+
+.logo {
+  width: 34px;
+  height: 34px;
+  display: block;
+  flex: none;
+}
+
+.wordmark {
+  display: block;
+  margin-left: 11px;
+  font-family: var(--font-cinzel);
+  font-size: clamp(11px, 1.3vw, 13.5px);
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+  transition:
+    font-size 1.15s var(--ease),
+    letter-spacing 1.15s var(--ease),
+    margin-left 1.15s var(--ease);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(10px, 1.4vw, 22px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: none;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.4s var(--ease);
+}
+
+.link:hover {
+  color: var(--gold-dark);
+}
+
+/* Label collapses while the line icon expands in, staggered 55ms apart. */
+.linkText {
+  display: block;
+  max-width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    max-width 1.05s var(--ease),
+    opacity 0.55s var(--ease);
+}
+
+.linkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    opacity 0.7s var(--ease),
+    width 1.05s var(--ease);
+}
+
+.cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  background: var(--emerald);
+  color: var(--card);
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  transition: background 0.5s var(--ease);
+}
+
+.cta:hover {
+  background: var(--emerald-deep);
+  color: var(--card);
+}
+
+.cta:active {
+  transform: scale(0.97);
+}
+
+.ctaLabel {
+  display: block;
+  overflow: hidden;
+  max-width: 160px;
+  opacity: 1;
+  margin-right: 10px;
+  margin-left: 10px;
+  transition:
+    max-width 1.05s var(--ease),
+    opacity 0.55s var(--ease),
+    margin-right 0.7s var(--ease),
+    margin-left 0.7s var(--ease);
+}
+
+.burger {
+  flex: none;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.burger span {
+  display: block;
+  height: 1.4px;
+  background: var(--ink);
+  border-radius: 2px;
+}
+
+/* Desktop links vs mobile hamburger, resolved in CSS so first paint is
+   correct and there is nothing for hydration to disagree about.
+   These must come after the base rules: same specificity, source order wins. */
+@media (max-width: 899px) {
+  .links {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .burger {
+    display: none;
+  }
+}
+
+/* Below 480px the pill's contents (logo + wordmark + CTA + hamburger) no
+   longer fit, and the hamburger gets pushed off-screen, so the menu becomes
+   unreachable. Collapse the CTA to its gold arrow, which is exactly what the
+   compact scroll state already does, so nothing new is invented. */
+@media (max-width: 479px) {
+  .ctaLabel {
+    max-width: 0;
+    opacity: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* --- mobile overlay ------------------------------------------------------ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--emerald-deep);
+  color: var(--cream);
+  display: flex;
+  flex-direction: column;
+  padding: 22px clamp(20px, 6vw, 40px) 40px;
+  animation: tz-fade 0.45s var(--ease) both;
+}
+
+.overlayHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: auto;
+}
+
+.close {
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(244, 240, 230, 0.22);
+  background: transparent;
+  color: var(--cream);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.overlayLinks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 2vw, 14px);
+}
+
+.overlayLinks li {
+  overflow: hidden;
+}
+
+.overlayLink {
+  display: block;
+  font-family: var(--font-cinzel);
+  font-size: clamp(2.1rem, 10vw, 3rem);
+  color: var(--cream);
+  text-decoration: none;
+  line-height: 1.1;
+  animation: tz-in 0.8s var(--ease) both;
+}
+
+.overlayLink:hover {
+  color: var(--cream);
+}
+
+.overlayApply {
+  color: var(--gold);
+}
+
+.overlayApply:hover {
+  color: var(--gold);
+}
+
+.overlayFoot {
+  margin-top: auto;
+  padding-top: 32px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(244, 240, 230, 0.5);
+  animation: tz-fade 1s 0.4s both;
+}

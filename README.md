@@ -1,53 +1,93 @@
-# Akademia Tenzil — website
+# Akademia Tenzil, public website
 
-Static site for the Akademia Tenzil iOS app. No build step, no dependencies:
-plain HTML deployed by Vercel straight from this repo's root.
+Next.js 16 (App Router, TypeScript, CSS Modules) port of the approved design in
+`../Akademia Tenzil.dc.html`. All copy is Albanian; the design file remains the
+visual source of truth.
 
-## Pages
-
-| File | Live path | Purpose |
-| --- | --- | --- |
-| `index.html` | `/` | Holding page — logo, wordmark, "under construction", and the two links below. |
-| `support.html` | `/support` | Support / help (Albanian, with an English summary) — the **Support URL** in App Store Connect. |
-| `privacy-policy.html` | `/privacy-policy` | Privacy policy (English) — the **Privacy Policy URL** in App Store Connect. |
-
-`cleanUrls` is on in `vercel.json`, so `/support` serves `support.html` and the
-`.html` forms redirect to the clean paths. `/privacy` is kept as a permanent
-redirect to `/privacy-policy`.
-
-## Assets
-
-Everything is self-hosted — the pages make **no third-party requests**, which is
-what the privacy policy claims, so keep it that way (no Google Fonts, no CDNs,
-no analytics).
-
-| Path | Source | Notes |
-| --- | --- | --- |
-| `assets/appicon-512.png` | `appicon.png` | The app icon, downscaled and de-grained. The 4096px original is ~19 MB and must never be committed. |
-| `assets/favicon.ico` | `logo_white.png` | Multi-resolution (16–256). The white cutout carries semi-transparent green fringing, so it is flattened onto deep emerald `#123F33`, which absorbs it. |
-| `assets/apple-touch-icon.png` | `logo_white.png` | 180px, same treatment. |
-| `assets/og.png` | `appicon.png` | 1200×630 link-preview card. |
-| `assets/fonts/*.woff2` | app's bundled TTFs | Cinzel, Cormorant Garamond SemiBold, Manrope Medium — subset to Latin + Latin-1 + Latin Ext-A (covers `ë`/`ç`). ~60 KB total. |
-
-Originals live in the app repo at `Akademia Tenzil/website/public/`.
-
-## Brand
-
-```
-Cream #F4F0E6   Card  #FBFAF4   Ink        #22302A
-Emerald #1E5A4B Deep  #123F33   Sage       #E7EDE4
-Gold  #B08A4C   Dark gold #8A6D3B   Muted   #7B897F
+```bash
+npm install
+npm run dev
 ```
 
-Type: Cinzel (wordmark), Cormorant Garamond (display), Manrope (UI).
+## Environment
 
-## Deploying
+Nothing is required to run the site locally. Three variables matter for
+production:
 
-Every push to `main` deploys automatically. Vercel needs no framework preset, no
-build command and no output directory — the repo root *is* the site.
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Production origin. Drives `metadataBase`, the canonical URL, `sitemap.xml` and `robots.txt`. Defaults to `https://akademiatenzil.com`. **Set this to the real domain before launch.** |
+| `APPLY_WEBHOOK_URL` | Where applications are POSTed as JSON. Works with a Google Apps Script bound to a Sheet, Airtable/Notion via a proxy, Zapier, Make, n8n, or your own endpoint. |
+| `RESEND_API_KEY` + `APPLY_TO_EMAIL` | Alternative to the webhook: emails the application to the academy. `APPLY_FROM_EMAIL` optionally overrides the sender. |
 
-## Editing
+Optional: `APPLY_WEBHOOK_SECRET` is sent as the `X-Tenzil-Secret` header so the
+receiving endpoint can verify the caller.
 
-Contact address appears in `support.html` (4 places) and `privacy-policy.html`
-(1 place). If it changes, update App Store Connect too. When the policy changes,
-bump the "Last updated" date at the top of `privacy-policy.html`.
+**Delivery is deliberately unset by default.** With neither a webhook nor Resend
+configured, `/api/apply` returns `501 NO_ENDPOINT` and the form shows its error
+state. The site never fakes a successful application.
+
+Payload shape:
+
+```json
+{
+  "emri": "…", "mosha": "…", "email": "…", "telefoni": "…",
+  "programi": "Hifz | Përforcim | Nuk jam i sigurt",
+  "pervoja": "…", "mesazhi": "…",
+  "source": "akademiatenzil.web",
+  "ts": "2026-07-29T10:00:00.000Z"
+}
+```
+
+## Structure
+
+```
+src/
+  app/
+    layout.tsx            fonts, metadata, <html lang="sq">
+    page.tsx              composes all 11 sections
+    globals.css           tokens, resets, the 7 recurring motifs
+    opengraph-image.tsx   1200×630, generated from Cinzel Wolf + the white logo
+    sitemap.ts robots.ts
+    api/apply/route.ts    validation, honeypot, rate limit, delivery
+  components/
+    Nav.tsx               client: compact morph, mobile overlay
+    ApplicationForm.tsx   client: validation and submit states
+    <Section>.tsx         server components, one CSS Module each
+    ui/Motifs.tsx         Eyebrow, Diamonds, ArchWatermark, JourneyLine,
+                          PaperGrain, ArrowCircle
+    motion/
+      SmoothScroll.tsx    Lenis provider + anchor intercept
+      PageMotion.tsx      the one animating primitive
+      useReveal.ts        all scroll-driven motion, read from data attributes
+      useMagnetic.ts      magnetic CTAs
+  lib/
+    validation.ts         shared by the form and the route handler
+    delivery.ts  rateLimit.ts  site.ts
+```
+
+### Motion architecture
+
+The handoff suggested a per-component `Reveal` wrapper. This build instead keeps
+**every section a server component** carrying plain data attributes
+(`data-reveal`, `data-parallax`, `data-panel`, `data-sticky`, …) and has a single
+client component (`PageMotion`) read them and drive GSAP. Same behaviour as
+the prototype, selector for selector, with only `Nav`, `ApplicationForm`,
+`SmoothScroll` and `PageMotion` in the client bundle.
+
+## Still open
+
+1. **Real contact details** for the footer. The approved placeholder line
+   ("Kontaktet zyrtare shtohen sapo t'i konfirmojë akademia.") is in place;
+   nothing was invented. `JsonLd.tsx` likewise omits `address`/`telephone`/
+   `email`/`sameAs` until they land.
+2. **Privacy + Contact as routes or inline?** Currently inline, as designed.
+3. **Program picker label.** The picker says "Përforcim" while the panel says
+   "Itkan". Left as designed; the submitted value is `Përforcim` either way.
+4. **Production domain** for `NEXT_PUBLIC_SITE_URL`.
+5. **Rate limiting** is in-process (5 requests/hour/IP). Real on a single
+   long-lived server, best-effort on serverless. Put Upstash Ratelimit or a
+   Vercel WAF rule in front for production.
+6. **GDPR.** The form collects a minor's name, age, email and phone. Confirm
+   who receives it, where it is stored and for how long, and reflect that in the
+   privacy copy before launch.

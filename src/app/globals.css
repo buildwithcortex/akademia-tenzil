@@ -1,0 +1,284 @@
+/* ===========================================================================
+   Akademia Tenzil: design tokens, resets, shared motifs.
+   Values are exact per the design handoff. Do not adjust.
+   =========================================================================== */
+
+@font-face {
+  font-family: 'Cinzel Wolf';
+  src:
+    url('/fonts/CinzelWolf.woff2') format('woff2'),
+    url('/fonts/CinzelWolf.ttf') format('truetype');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+  /* Surfaces & ink */
+  --cream: #f4f0e6; /* page background, ~55% of the site */
+  --card: #fbfaf4; /* raised card / alternating section */
+  --ink: #22302a; /* primary text */
+  --emerald: #1e5a4b; /* primary accent, links, second-clause headings */
+  --emerald-deep: #123f33; /* dark sections, primary buttons, footer */
+  --gold: #b08a4c; /* accent only, never dominant */
+  --gold-dark: #8a6d3b; /* eyebrow text on light bg (contrast) */
+  --sage: #e7ede4; /* pale section tint */
+  --muted: #7b897f; /* captions, tertiary */
+  --body: #4a5a51; /* body copy on cream (NOT --muted) */
+  --red: #c05b4d; /* validation errors */
+  --red-text: #8e3d32; /* error text on tint, for AA contrast */
+  --blue: #3b6b8a; /* reserved, currently unused */
+  --hairline: rgba(30, 90, 75, 0.1);
+  --gold-hairline: rgba(176, 138, 76, 0.24);
+
+  --ease: cubic-bezier(0.32, 0.72, 0, 1); /* every transition uses this */
+
+  /* Families. Three jobs, never substitute. */
+  --font-cinzel: 'Cinzel Wolf', 'Cinzel', Georgia, serif;
+  --font-body: var(--font-manrope), system-ui, sans-serif;
+  --font-arabic: var(--font-amiri), serif;
+
+  /* Layout rhythm */
+  --maxw: 1440px;
+  --pad-y: clamp(80px, 11vw, 170px);
+  --pad-x: clamp(20px, 4vw, 64px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 19px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+fieldset {
+  margin: 0;
+}
+
+a {
+  color: var(--emerald);
+  text-decoration-color: rgba(176, 138, 76, 0.55);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--gold-dark);
+}
+
+::selection {
+  background: rgba(176, 138, 76, 0.24);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+input,
+textarea,
+button,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+svg {
+  max-width: 100%;
+}
+
+@keyframes tz-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tz-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===========================================================================
+   Recurring motifs (shared across sections)
+   =========================================================================== */
+
+/* 1. Eyebrow: 34×1px gold rule + 11px uppercase gold-dark text */
+.tz-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  line-height: 1.7;
+}
+
+.tz-eyebrow::before {
+  content: '';
+  display: block;
+  width: 34px;
+  height: 1px;
+  background: var(--gold);
+  flex: none;
+}
+
+/* on dark sections the eyebrow is full gold */
+.tz-eyebrow--gold {
+  color: var(--gold);
+}
+
+/* 2. Three gold diamonds: 8×8px squares, rotate(45deg), gap 7px */
+.tz-diamonds {
+  display: flex;
+  gap: 7px;
+}
+
+.tz-diamonds > span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+.tz-diamonds > span[data-pending='true'] {
+  background: rgba(176, 138, 76, 0.4);
+}
+
+/* 4. Gold journey line: pale 1px rule with a gold child that scales in */
+.tz-line {
+  position: absolute;
+  width: 1px;
+  background: rgba(176, 138, 76, 0.22);
+  transform-origin: top;
+}
+
+.tz-line > i {
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+/* 6. Paper grain */
+.tz-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+}
+
+/* 7. Arrow-in-circle */
+.tz-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(176, 138, 76, 0.9);
+  flex: none;
+}
+
+.tz-arrow--nav {
+  width: 26px;
+  height: 26px;
+  background: rgba(244, 240, 230, 0.14);
+}
+
+/* Overflow mask for line / word reveals */
+.tz-mask {
+  display: block;
+  overflow: hidden;
+}
+
+/* Skip link, first in the DOM */
+.tz-skip {
+  position: fixed;
+  top: -100px;
+  left: 24px;
+  z-index: 120;
+  background: var(--emerald-deep);
+  color: var(--cream);
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-decoration: none;
+  transition: top 0.4s var(--ease);
+}
+
+.tz-skip:focus {
+  top: 16px;
+  color: var(--cream);
+}
+
+/* Centred content column */
+.tz-wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+
+/* Second clause of a heading */
+.tz-em {
+  color: var(--emerald);
+}
+
+.tz-em-gold {
+  color: var(--gold);
+}
+
+/* ===========================================================================
+   Reduced motion. The static result must look finished, not unstyled.
+   JS skips entrance tweens; these rules make the end-state the start-state.
+   =========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .tz-line > i {
+    transform: scaleY(1);
+  }
+}

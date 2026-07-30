@@ -1,0 +1,41 @@
+.section {
+  position: relative;
+  background: var(--emerald-deep);
+  color: var(--cream);
+  padding: clamp(72px, 10vw, 160px) var(--pad-x);
+  overflow: hidden;
+}
+
+.arch {
+  position: absolute;
+  right: -6%;
+  top: -14%;
+  width: min(58vw, 620px);
+  height: auto;
+  opacity: 0.5;
+}
+
+.grid {
+  position: relative;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(32px, 5vw, 80px);
+  align-items: end;
+}
+
+.quote {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 4vw, 3.7rem);
+  line-height: 1.12;
+  max-width: 17ch;
+}
+
+.body {
+  max-width: 54ch;
+  font-size: clamp(16.5px, 1.15vw, 19px);
+  line-height: 1.78;
+  color: rgba(244, 240, 230, 0.82);
+}

@@ -1,0 +1,146 @@
+.section {
+  position: relative;
+  padding: var(--pad-y) var(--pad-x) clamp(90px, 12vw, 190px);
+  background: var(--cream);
+  overflow: hidden;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(24px, 4vw, 64px);
+  align-items: end;
+  margin-bottom: clamp(44px, 6vw, 88px);
+}
+
+.title {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 4.4vw, 4.2rem);
+  line-height: 1.1;
+  max-width: 16ch;
+}
+
+.intro {
+  max-width: 50ch;
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--muted);
+  padding-bottom: 0.6em;
+}
+
+.panels {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: clamp(20px, 2vw, 28px);
+  align-items: start;
+}
+
+.panel {
+  position: relative;
+  padding: clamp(30px, 4vw, 64px);
+  border-radius: 2px;
+  min-height: clamp(400px, 46vw, 600px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 01. Hifz */
+.panelHifz {
+  z-index: 2;
+  background: var(--emerald-deep);
+  color: var(--cream);
+  box-shadow: 0 60px 120px -80px rgba(18, 63, 51, 0.9);
+}
+
+/* 02. Itkan */
+.panelItkan {
+  z-index: 1;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid rgba(176, 138, 76, 0.34);
+  margin-top: clamp(0px, 5vw, 72px);
+  box-shadow: 0 50px 110px -80px rgba(18, 63, 51, 0.75);
+}
+
+/* 03. Në të ardhmen */
+.panelSoon {
+  z-index: 1;
+  background: var(--sage);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  min-height: clamp(340px, 36vw, 470px);
+  box-shadow: 0 40px 100px -84px rgba(18, 63, 51, 0.7);
+}
+
+/* Eyebrow pinned top; the title block is bottom-anchored via margin-bottom:auto */
+.panelEyebrow {
+  position: relative;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  margin-bottom: auto;
+}
+
+.panelEyebrowRow {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: auto;
+}
+
+.panelBody {
+  position: relative;
+  margin-top: clamp(40px, 6vw, 80px);
+}
+
+.panelBodySoon {
+  position: relative;
+  margin-top: clamp(36px, 5vw, 64px);
+}
+
+.name {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+}
+
+.nameItkan {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.6vw, 3.9rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+  color: var(--emerald);
+}
+
+.nameSoon {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3vw, 2.7rem);
+  line-height: 1.06;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+  max-width: 16ch;
+}
+
+.sub {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: clamp(20px, 3vw, 30px);
+}
+
+.copy {
+  max-width: 44ch;
+  font-size: clamp(16px, 1.1vw, 18.5px);
+  line-height: 1.75;
+}

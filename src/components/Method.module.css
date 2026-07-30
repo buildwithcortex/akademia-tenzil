@@ -1,0 +1,109 @@
+.section {
+  position: relative;
+  background: var(--card);
+  border-top: 1px solid var(--hairline);
+  padding: clamp(80px, 11vw, 150px) var(--pad-x) clamp(80px, 11vw, 160px);
+}
+
+.grid {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: clamp(40px, 5vw, 90px);
+  align-items: start;
+}
+
+/* position/top are set imperatively: sticky at 22vh on desktop, relative below
+   900px, re-checked on resize. */
+.rail {
+  position: relative;
+  top: 0;
+}
+
+.title {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 4.4vw, 4.2rem);
+  line-height: 1.1;
+  max-width: 14ch;
+  margin-bottom: clamp(24px, 3vw, 36px);
+}
+
+.lead {
+  max-width: 48ch;
+  font-size: clamp(16px, 1.1vw, 18.5px);
+  color: var(--body);
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.count {
+  font-family: var(--font-cinzel);
+  font-size: clamp(3.4rem, 7vw, 6rem);
+  line-height: 0.85;
+  color: var(--emerald);
+}
+
+.countTotal {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.listWrap {
+  position: relative;
+  padding-left: clamp(22px, 3vw, 44px);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.line {
+  left: 0;
+  top: 0.6em;
+  bottom: 0.6em;
+}
+
+.step {
+  position: relative;
+  padding: clamp(22px, 3vw, 34px) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.step:last-child {
+  border-bottom: none;
+}
+
+.node {
+  position: absolute;
+  left: calc(-1 * clamp(22px, 3vw, 44px) - 4.5px);
+  top: calc(clamp(22px, 3vw, 34px) + 0.62em);
+  width: 9px;
+  height: 9px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+.stepTitle {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+  line-height: 1.14;
+}
+
+.stepDesc {
+  margin-top: 10px;
+  max-width: 50ch;
+  font-size: 16.5px;
+  color: var(--muted);
+}

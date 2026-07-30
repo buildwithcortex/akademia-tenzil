@@ -1,0 +1,48 @@
+.section {
+  position: relative;
+  background: var(--emerald-deep);
+  color: var(--cream);
+  padding: var(--pad-y) var(--pad-x) clamp(64px, 8vw, 120px);
+  overflow: hidden;
+}
+
+/* Full-width mihrab behind the whole section */
+.arch {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: min(150vw, 1300px);
+  height: auto;
+  transform: translateX(-50%);
+  opacity: 0.4;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: clamp(40px, 5vw, 90px);
+  align-items: start;
+}
+
+.title {
+  font-family: var(--font-cinzel);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 4.6vw, 4.4rem);
+  line-height: 1.08;
+  max-width: 16ch;
+  margin-bottom: clamp(22px, 3vw, 34px);
+}
+
+.body {
+  max-width: 52ch;
+  font-size: clamp(16.5px, 1.15vw, 19px);
+  line-height: 1.75;
+  color: rgba(244, 240, 230, 0.82);
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
