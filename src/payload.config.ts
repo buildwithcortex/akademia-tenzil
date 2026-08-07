@@ -31,6 +31,13 @@ export default buildConfig({
     user: Users.slug,
     meta: {
       titleSuffix: ' · Akademia Tenzil',
+      icons: [{ url: '/app-icon.png' }],
+    },
+    components: {
+      graphics: {
+        Logo: '@/components/admin/Logo#Logo',
+        Icon: '@/components/admin/Icon#Icon',
+      },
     },
   },
 

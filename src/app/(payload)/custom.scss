@@ -1,8 +1,20 @@
 /**
- * Admin panel overrides.
+ * Admin panel styles.
  *
- * Deliberately empty. Payload's own theme is well-designed and its CSS custom
- * properties are internal API, so overriding them by guesswork breaks contrast
- * in ways that are easy to miss. The admin is a tool for one person, not a
- * brand surface: leave it alone unless there is a real usability reason.
+ * The brand font is declared here because the admin has its own root layout and
+ * never loads the site's globals.css.
+ *
+ * Payload's --theme-* and --color-* custom properties are its internal API.
+ * They are deliberately not overridden: an earlier attempt to tint them by
+ * guessing names turned the text dark on a dark background. Branding is done
+ * with the logo and the font, which cannot break contrast.
  */
+
+@font-face {
+  font-family: 'Cinzel Wolf';
+  src:
+    url('/fonts/CinzelWolf.woff2') format('woff2'),
+    url('/fonts/CinzelWolf.ttf') format('truetype');
+  font-weight: 400 700;
+  font-display: swap;
+}

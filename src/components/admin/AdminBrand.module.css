@@ -1,0 +1,59 @@
+/* Branding for the admin panel.
+   Payload flips `data-theme` on <html>, so both logo variants are rendered and
+   CSS picks the readable one. No colour variables are overridden: those are
+   Payload's internal API and guessing at them breaks contrast. */
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.mark {
+  width: 74px;
+  height: 74px;
+  display: block;
+}
+
+.wordmark {
+  /* Declared in (payload)/custom.scss; the admin never loads globals.css. */
+  font-family: 'Cinzel Wolf', Georgia, serif;
+  font-size: 15px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--theme-elevation-800);
+}
+
+.tagline {
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--theme-elevation-500);
+}
+
+/* Small mark in the sidebar */
+.icon {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+
+/* Theme-aware logo swap */
+.onLight {
+  display: block;
+}
+
+.onDark {
+  display: none;
+}
+
+[data-theme='dark'] .onLight {
+  display: none;
+}
+
+[data-theme='dark'] .onDark {
+  display: block;
+}
