@@ -1,0 +1,8 @@
+/**
+ * Admin panel overrides.
+ *
+ * Deliberately empty. Payload's own theme is well-designed and its CSS custom
+ * properties are internal API, so overriding them by guesswork breaks contrast
+ * in ways that are easy to miss. The admin is a tool for one person, not a
+ * brand surface: leave it alone unless there is a real usability reason.
+ */

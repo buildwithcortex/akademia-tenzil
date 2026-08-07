@@ -58,6 +58,27 @@ const LINKS = [
       </>
     ),
   },
+  {
+    // A real route rather than an in-page anchor, so this one navigates away.
+    href: '/artikuj',
+    label: 'Artikuj',
+    icon: (
+      <>
+        <path
+          d="M3.4 3.2h8.2l2.8 2.8v8.8H3.4V3.2Z"
+          stroke="currentColor"
+          strokeWidth="1.25"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M6 8.4h6M6 11h4"
+          stroke="currentColor"
+          strokeWidth="1.25"
+          strokeLinecap="round"
+        />
+      </>
+    ),
+  },
 ];
 
 export function Nav() {

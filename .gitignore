@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Payload
+/media
+
+# Local tooling
+.claude/
+AGENTS.md
+CLAUDE.md

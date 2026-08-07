@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { withPayload } from '@payloadcms/next/withPayload';
 
 /**
  * `/support` and `/privacy-policy` are registered with App Store Connect as the
@@ -40,6 +41,17 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  images: {
+    remotePatterns: [
+      // Article images are served from the Supabase Storage bucket.
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
+  },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

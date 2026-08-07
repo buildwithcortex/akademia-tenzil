@@ -7,6 +7,7 @@ const PAGE_LINKS = [
   { href: '#misioni', label: 'Misioni' },
   { href: '#programi', label: 'Programi' },
   { href: '#metoda', label: 'Metoda' },
+  { href: '/artikuj', label: 'Artikuj' },
   { href: '#apliko', label: 'Apliko' },
 ];
 
