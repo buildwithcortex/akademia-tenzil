@@ -13,8 +13,19 @@ import { Users } from '@/collections/Users';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
+/**
+ * Only pin serverURL when the real origin is actually known.
+ *
+ * Payload's CSRF protection compares the browser's origin against serverURL
+ * and the csrf allowlist. Hardcoding a localhost fallback breaks every write
+ * with "You are not allowed to perform this action" the moment the dev server
+ * picks a different port, which it does whenever 3000 is taken. Left unset,
+ * Payload infers the origin from the request, which is correct in dev.
+ */
+const siteURL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
+
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  ...(siteURL ? { serverURL: siteURL, csrf: [siteURL] } : {}),
 
   admin: {
     user: Users.slug,
