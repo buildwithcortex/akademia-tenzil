@@ -2,7 +2,6 @@ import { Nav } from '@/components/Nav';
 import { Hero } from '@/components/Hero';
 import { Mission } from '@/components/Mission';
 import { About } from '@/components/About';
-import { Journey } from '@/components/Journey';
 import { Programs } from '@/components/Programs';
 import { Method } from '@/components/Method';
 import { Guidance } from '@/components/Guidance';
@@ -33,7 +32,6 @@ export default function Page() {
         <Hero />
         <Mission />
         <About />
-        <Journey />
         <Programs />
         <Method />
         <Guidance />

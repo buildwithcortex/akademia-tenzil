@@ -3,7 +3,9 @@ import s from './Programs.module.css';
 
 export function Programs() {
   return (
-    <section aria-labelledby="programet-title" className={s.section}>
+    // Owns the #programi anchor: the Journey section that used to carry it was
+    // removed, and nav, footer and the hero CTA all point here now.
+    <section id="programi" aria-labelledby="programet-title" className={s.section}>
       <div className="tz-wrap">
         <div className={s.head}>
           <div>
