@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { validate, tooLong, type ApplicationInput } from '@/lib/validation';
-import { deliver, NoEndpointError } from '@/lib/delivery';
+import { getPayloadClient } from '@/lib/payload';
+import { notify } from '@/lib/delivery';
 import { clientKey, rateLimit } from '@/lib/rateLimit';
 
 export const runtime = 'nodejs';
@@ -38,25 +39,38 @@ export async function POST(req: Request) {
     return NextResponse.json({ errors }, { status: 400 });
   }
 
+  const application = {
+    emri: data.emri!.trim(),
+    mosha: data.mosha!.trim(),
+    email: data.email!.trim(),
+    telefoni: data.telefoni!.trim(),
+    programi: data.programi!,
+    pervoja: data.pervoja?.trim() || '',
+    mesazhi: data.mesazhi?.trim() || '',
+    source: 'akademiatenzil.web',
+  };
+
+  // Storing the application is the part that must not fail. The collection
+  // blocks create for everyone, so this writes with overrideAccess.
   try {
-    await deliver({
-      emri: data.emri!.trim(),
-      mosha: data.mosha!.trim(),
-      email: data.email!.trim(),
-      telefoni: data.telefoni!.trim(),
-      programi: data.programi!,
-      pervoja: data.pervoja?.trim() || '',
-      mesazhi: data.mesazhi?.trim() || '',
-      source: 'akademiatenzil.web',
-      ts: new Date().toISOString(),
+    const payload = await getPayloadClient();
+    await payload.create({
+      collection: 'applications',
+      data: { ...application, status: 'i_ri' },
+      overrideAccess: true,
     });
   } catch (err) {
-    // No delivery target configured yet. Say so rather than fake a success.
-    if (err instanceof NoEndpointError) {
-      return NextResponse.json({ error: 'NO_ENDPOINT' }, { status: 501 });
-    }
-    console.error('[apply] delivery failed:', err);
-    return NextResponse.json({ error: 'DELIVERY_FAILED' }, { status: 502 });
+    console.error('[apply] could not save application:', err);
+    return NextResponse.json({ error: 'SAVE_FAILED' }, { status: 502 });
+  }
+
+  // Notification is best-effort. The application is already safely stored, so a
+  // missing or broken email provider must never make the applicant think their
+  // submission failed.
+  try {
+    await notify({ ...application, ts: new Date().toISOString() });
+  } catch (err) {
+    console.error('[apply] saved, but notification failed:', err);
   }
 
   return NextResponse.json({ ok: true });

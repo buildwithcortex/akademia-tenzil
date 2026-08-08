@@ -17,8 +17,6 @@ const EMPTY = {
   mesazhi: '',
 };
 
-const MSG_NO_ENDPOINT =
-  'Dërgimi nuk është i lidhur me serverin ende, ndaj aplikimi nuk u dërgua. Lidhni formularin me backend-in ose kontaktoni akademinë drejtpërdrejt.';
 const MSG_FAILED = 'Dërgimi nuk u realizua. Provoni përsëri pas një momenti.';
 
 export function ApplicationForm() {
@@ -84,18 +82,14 @@ export function ApplicationForm() {
           setStatus('idle');
           return;
         }
-        // No delivery target configured. Never fake a success.
-        throw new Error(body?.error === 'NO_ENDPOINT' ? 'NO_ENDPOINT' : 'HTTP');
+        // Anything else is a genuine failure. Never fake a success.
+        throw new Error('HTTP');
       }
 
       setStatus('sent');
-    } catch (ex) {
+    } catch {
       setStatus('error');
-      setFailMsg(
-        ex instanceof Error && ex.message === 'NO_ENDPOINT'
-          ? MSG_NO_ENDPOINT
-          : MSG_FAILED,
-      );
+      setFailMsg(MSG_FAILED);
     }
   }
 

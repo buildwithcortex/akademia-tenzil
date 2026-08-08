@@ -70,6 +70,7 @@ export interface Config {
     articles: Article;
     categories: Category;
     media: Media;
+    applications: Application;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -81,6 +82,7 @@ export interface Config {
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    applications: ApplicationsSelect<false> | ApplicationsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -226,6 +228,30 @@ export interface Media {
   };
 }
 /**
+ * Aplikimet e dërguara nga faqja publike.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "applications".
+ */
+export interface Application {
+  id: number;
+  status?: ('i_ri' | 'ne_shqyrtim' | 'kontaktuar' | 'pranuar' | 'refuzuar') | null;
+  /**
+   * Vetëm për akademinë. Nuk i shfaqet aplikuesit.
+   */
+  shenime?: string | null;
+  emri: string;
+  mosha?: string | null;
+  email: string;
+  telefoni?: string | null;
+  programi?: string | null;
+  pervoja?: string | null;
+  mesazhi?: string | null;
+  source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -286,6 +312,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'applications';
+        value: number | Application;
       } | null)
     | ({
         relationTo: 'users';
@@ -410,6 +440,24 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "applications_select".
+ */
+export interface ApplicationsSelect<T extends boolean = true> {
+  status?: T;
+  shenime?: T;
+  emri?: T;
+  mosha?: T;
+  email?: T;
+  telefoni?: T;
+  programi?: T;
+  pervoja?: T;
+  mesazhi?: T;
+  source?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
