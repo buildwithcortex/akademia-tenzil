@@ -17,10 +17,35 @@ export const Media: CollectionConfig = {
   },
   upload: {
     mimeTypes: ['image/*'],
+    /**
+     * Variants are converted to WebP. Resizing a PNG keeps it a PNG, and a
+     * photographic PNG stays enormous: a 2048px upload produced a 900px "card"
+     * that was still 1.2 MB. WebP takes the same image to roughly a tenth of
+     * that, and every browser the site supports reads it.
+     */
+    formatOptions: {
+      format: 'webp',
+      options: { quality: 82 },
+    },
     imageSizes: [
-      { name: 'thumbnail', width: 480, height: undefined, position: 'centre' },
-      { name: 'card', width: 900, height: undefined, position: 'centre' },
-      { name: 'wide', width: 1600, height: undefined, position: 'centre' },
+      {
+        name: 'thumbnail',
+        width: 480,
+        position: 'centre',
+        formatOptions: { format: 'webp', options: { quality: 80 } },
+      },
+      {
+        name: 'card',
+        width: 900,
+        position: 'centre',
+        formatOptions: { format: 'webp', options: { quality: 82 } },
+      },
+      {
+        name: 'wide',
+        width: 1600,
+        position: 'centre',
+        formatOptions: { format: 'webp', options: { quality: 82 } },
+      },
     ],
   },
   fields: [

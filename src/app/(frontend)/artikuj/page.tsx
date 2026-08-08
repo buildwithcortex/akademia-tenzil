@@ -2,7 +2,12 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LegalShell } from '@/components/LegalShell';
-import { getPayloadClient, formatDate, PUBLISHED_ONLY } from '@/lib/payload';
+import {
+  getPayloadClient,
+  formatDate,
+  PUBLISHED_ONLY,
+  pickImage,
+} from '@/lib/payload';
 import type { Article, Category, Media } from '@/payload-types';
 import s from '@/components/Articles.module.css';
 
@@ -53,11 +58,14 @@ export default async function ArticlesPage() {
         </div>
       ) : (
         <div className={s.list}>
-          {articles.map((article) => {
-            const cover =
+          {articles.map((article, index) => {
+            // 'card' is 900px wide; never the untouched original.
+            const cover = pickImage(
               article.cover && typeof article.cover === 'object'
                 ? (article.cover as Media)
-                : null;
+                : null,
+              ['card', 'wide', 'thumbnail'],
+            );
             const category =
               article.category && typeof article.category === 'object'
                 ? (article.category as Category)
@@ -84,14 +92,19 @@ export default async function ArticlesPage() {
                   ) : null}
                 </div>
 
-                {cover?.url ? (
+                {cover ? (
                   <Link href={`/artikuj/${article.slug}`} className={s.thumb}>
                     <Image
                       src={cover.url}
-                      alt={cover.alt || ''}
-                      width={cover.width ?? 900}
-                      height={cover.height ?? 600}
+                      alt={cover.alt}
+                      width={cover.width}
+                      height={cover.height}
                       sizes="(max-width: 700px) 100vw, 380px"
+                      // The first thumbnail is the LCP on this page.
+                      // `priority` is deprecated in Next 16; eager loading
+                      // plus a high fetch priority is the replacement.
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                      fetchPriority={index === 0 ? 'high' : 'auto'}
                     />
                   </Link>
                 ) : null}

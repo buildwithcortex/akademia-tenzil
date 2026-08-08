@@ -251,7 +251,8 @@ export function Nav() {
               alt=""
               width={34}
               height={34}
-              priority
+              loading="eager"
+              fetchPriority="high"
               className={s.logo}
             />
             <span data-nav-word="1" className={s.wordmark}>

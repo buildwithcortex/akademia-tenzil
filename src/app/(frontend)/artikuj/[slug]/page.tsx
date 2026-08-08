@@ -4,7 +4,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import { LegalShell } from '@/components/LegalShell';
-import { getPayloadClient, formatDate, PUBLISHED_ONLY } from '@/lib/payload';
+import {
+  getPayloadClient,
+  formatDate,
+  PUBLISHED_ONLY,
+  pickImage,
+} from '@/lib/payload';
 import type { Article, Category, Media } from '@/payload-types';
 import s from '@/components/Articles.module.css';
 
@@ -45,10 +50,12 @@ export async function generateMetadata({
   const article = await findArticle(slug);
   if (!article) return { title: 'Artikulli nuk u gjet · Akademia Tenzil' };
 
-  const cover =
+  const cover = pickImage(
     article.cover && typeof article.cover === 'object'
       ? (article.cover as Media)
-      : null;
+      : null,
+    ['card', 'wide'],
+  );
 
   return {
     title: `${article.title} · Akademia Tenzil`,
@@ -74,10 +81,12 @@ export default async function ArticlePage({
   const article = await findArticle(slug);
   if (!article) notFound();
 
-  const cover =
+  const cover = pickImage(
     article.cover && typeof article.cover === 'object'
       ? (article.cover as Media)
-      : null;
+      : null,
+    ['wide', 'card'],
+  );
   const category =
     article.category && typeof article.category === 'object'
       ? (article.category as Category)
@@ -103,14 +112,15 @@ export default async function ArticlePage({
         </>
       }
     >
-      {cover?.url ? (
+      {cover ? (
         <figure className={s.cover}>
           <Image
             src={cover.url}
-            alt={cover.alt || ''}
-            width={cover.width ?? 1600}
-            height={cover.height ?? 900}
-            priority
+            alt={cover.alt}
+            width={cover.width}
+            height={cover.height}
+            loading="eager"
+            fetchPriority="high"
             sizes="(max-width: 900px) 100vw, 820px"
           />
         </figure>

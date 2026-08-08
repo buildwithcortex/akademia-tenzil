@@ -42,7 +42,8 @@ export function LegalShell({
               alt=""
               width={30}
               height={30}
-              priority
+              loading="eager"
+              fetchPriority="high"
               style={{ width: 30, height: 30 }}
             />
             <span className={s.wordmark}>Akademia Tenzil</span>
