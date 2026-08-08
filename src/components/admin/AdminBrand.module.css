@@ -11,9 +11,13 @@
   text-align: center;
 }
 
+/* object-fit + aspect-ratio so the mark keeps its proportions no matter what
+   size Payload's surrounding slot tries to impose. */
 .mark {
   width: 74px;
   height: 74px;
+  aspect-ratio: 1;
+  object-fit: contain;
   display: block;
 }
 
@@ -34,10 +38,14 @@
   color: var(--theme-elevation-500);
 }
 
-/* Small mark in the sidebar */
+/* Small mark in the sidebar and breadcrumb. Payload's slot is not square, so
+   without object-fit the logo stretches. */
 .icon {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  aspect-ratio: 1;
+  object-fit: contain;
   display: block;
 }
 

@@ -17,7 +17,8 @@ export function Logo() {
       <img src="/logo-white.png" alt="" className={`${s.mark} ${s.onDark}`} />
       <div>
         <p className={s.wordmark}>Akademia Tenzil</p>
-        <p className={s.tagline}>Memorizim · Përforcim · Përsosje</p>
+        {/* The site's tagline belongs on the public site; this is the tool. */}
+        <p className={s.tagline}>Control Panel</p>
       </div>
     </div>
   );

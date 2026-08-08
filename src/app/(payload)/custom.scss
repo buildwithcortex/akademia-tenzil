@@ -4,10 +4,12 @@
  * The brand font is declared here because the admin has its own root layout and
  * never loads the site's globals.css.
  *
- * Payload's --theme-* and --color-* custom properties are its internal API.
- * They are deliberately not overridden: an earlier attempt to tint them by
- * guessing names turned the text dark on a dark background. Branding is done
- * with the logo and the font, which cannot break contrast.
+ * NO COLOUR OVERRIDES. Payload's --theme-* and --color-* custom properties are
+ * shared across far more surfaces than their names suggest: --theme-input-bg
+ * also paints dashboard cards, and --theme-text does not govern the text inside
+ * them. Retinting those tokens produced dark-on-dark panels twice. Payload's
+ * stock theme is well designed and readable; branding here is limited to the
+ * logo and the wordmark, which cannot affect contrast.
  */
 
 @font-face {
@@ -17,4 +19,13 @@
     url('/fonts/CinzelWolf.ttf') format('truetype');
   font-weight: 400 700;
   font-display: swap;
+}
+
+/* The logo graphics must never be squashed: Payload sizes its icon slot, and a
+   bare <img> will stretch to fill it. */
+.graphic-icon,
+.graphic-logo {
+  img {
+    object-fit: contain;
+  }
 }
