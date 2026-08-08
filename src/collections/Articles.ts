@@ -54,8 +54,27 @@ export const Articles: CollectionConfig = {
       },
       hooks: {
         beforeValidate: [
-          ({ value, data }) =>
-            value ? slugify(value) : slugify(data?.title ?? ''),
+          ({ value, data }) => {
+            const slug = slugify(
+              typeof value === 'string' && value ? value : (data?.title ?? ''),
+            );
+
+            /**
+             * An empty slug must never be stored as ''.
+             *
+             * Autosave writes a draft the moment the create view opens, before
+             * there is a title to derive a slug from. Storing '' means the
+             * second such draft collides with the first on the unique index,
+             * the create view fails, and the panel renders a blank page until
+             * the earlier draft is deleted.
+             *
+             * Null rather than undefined: Payload ignores a field hook that
+             * returns undefined and would leave the '' in place. Postgres
+             * allows any number of nulls under a unique index, so empty drafts
+             * no longer collide.
+             */
+            return slug || null;
+          },
         ],
       },
     },
