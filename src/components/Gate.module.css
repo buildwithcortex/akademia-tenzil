@@ -1,0 +1,168 @@
+/* Work-in-progress screen. Deep emerald, in the spirit of the holding page the
+   domain served before launch. */
+
+.page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 4vw, 44px);
+  padding: clamp(32px, 6vw, 72px) var(--pad-x);
+  background: var(--emerald-deep);
+  color: var(--cream);
+  text-align: center;
+  /* The arch is taller than the viewport and would otherwise push the document
+     into scrolling, revealing the cream body background beneath. */
+  overflow: hidden;
+}
+
+/* This screen is the whole page: nothing should sit behind or below it. */
+.page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--emerald-deep);
+  z-index: -1;
+}
+
+.arch {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: min(140vw, 1100px);
+  height: auto;
+  transform: translateX(-50%);
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 26px);
+  width: 100%;
+  max-width: 420px;
+}
+
+.logo {
+  width: clamp(64px, 9vw, 88px);
+  height: auto;
+  display: block;
+}
+
+.wordmark {
+  font-family: var(--font-cinzel);
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.tagline {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244, 240, 230, 0.55);
+}
+
+.note {
+  margin-top: 4px;
+  font-size: clamp(15px, 1.1vw, 16.5px);
+  line-height: 1.7;
+  color: rgba(244, 240, 230, 0.8);
+  max-width: 34ch;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.input {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 13px 15px;
+  min-height: 50px;
+  background: rgba(244, 240, 230, 0.06);
+  border: 1px solid rgba(244, 240, 230, 0.24);
+  border-radius: 999px;
+  color: var(--cream);
+  font-size: 16px; /* 16px prevents the iOS focus zoom */
+  text-align: center;
+  transition: border-color 0.35s var(--ease);
+}
+
+.input::placeholder {
+  color: rgba(244, 240, 230, 0.4);
+}
+
+.input:focus {
+  border-color: var(--gold);
+  outline: none;
+}
+
+.submit {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px 13px 24px;
+  min-height: 50px;
+  border: none;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--emerald-deep);
+  font-family: var(--font-cinzel);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.5s var(--ease);
+}
+
+.submit:hover:not(:disabled) {
+  background: #ffffff;
+}
+
+.submit:active:not(:disabled) {
+  transform: scale(0.975);
+}
+
+.submit:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+/* Reserved so an error never shifts the form. */
+.error {
+  min-height: 1.2em;
+  font-size: 13.5px;
+  color: #e8b4a8;
+}
+
+.foot {
+  position: relative;
+  margin-top: clamp(20px, 3vw, 32px);
+  font-size: 13px;
+  color: rgba(244, 240, 230, 0.55);
+}
+
+.foot a {
+  color: rgba(244, 240, 230, 0.75);
+  text-decoration: none;
+}
+
+.foot a:hover {
+  color: var(--gold);
+}
+
+.dot {
+  color: var(--gold);
+  margin: 0 8px;
+}
