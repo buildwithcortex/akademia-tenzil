@@ -29,10 +29,13 @@ export function Mission() {
             <div data-reveal="1" className={s.card}>
               <div className={s.cardInner}>
                 <p dir="rtl" lang="ar" className={s.verse}>
-                  رَبِّ زِدْنِي عِلْمًا
+                  وَإِنَّهُۥ لَتَنزِيلُ رَبِّ ٱلۡعَٰلَمِينَ
                 </p>
-                <p className={s.translation}>“Zoti im, shtoma dijen.”</p>
-                <p className={s.source}>Surja Taha, 20:114</p>
+                <p className={s.translation}>
+                  “E vërtetë se ky (Kurani) është shpallje (zbritje) e Zotit të
+                  botërave.”
+                </p>
+                <p className={s.source}>Surja Esh-Shuara, 26:192</p>
               </div>
             </div>
           </div>

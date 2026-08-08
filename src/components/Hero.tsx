@@ -10,7 +10,7 @@ export function Hero() {
       <div className={s.grid}>
         <div>
           <Eyebrow style={{ marginBottom: 'clamp(20px,3vw,34px)', maxWidth: '34ch' }}>
-            Akademia e memorizimit dhe përforcimit të Kuranit
+            Akademi · Shkollë e Kuranit dhe e shkencave të tij
           </Eyebrow>
 
           <h1 id="hero-title" className={s.title}>
@@ -113,7 +113,8 @@ export function Hero() {
               alt=""
               width={512}
               height={512}
-              priority
+              loading="eager"
+              fetchPriority="high"
               style={{
                 position: 'absolute',
                 left: '37%',
