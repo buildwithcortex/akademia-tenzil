@@ -27,6 +27,31 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 const siteURL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
 
 /**
+ * Every origin the admin panel may legitimately be loaded from.
+ *
+ * akademiatenzil.com and www.akademiatenzil.com are both real origins: one
+ * redirects to the other, but whichever form NEXT_PUBLIC_SITE_URL happens to
+ * carry, a person can still end up on the other. Listing only the configured
+ * one leaves the browser sending an origin that is not on the allowlist, and
+ * every write fails with "You are not allowed to perform this action" while
+ * logging in still appears to work, because login has no cookie to protect yet.
+ *
+ * Both forms are returned regardless of which was configured, so the panel
+ * keeps working if the canonical domain is ever switched.
+ */
+function allowedOrigins(url: string): string[] {
+  try {
+    const { protocol, host } = new URL(url);
+    const bare = host.replace(/^www\./, '');
+    return [`${protocol}//${bare}`, `${protocol}//www.${bare}`];
+  } catch {
+    // Not a parseable URL. Trust it as given rather than dropping it, which
+    // would silently widen CSRF to "infer from the request".
+    return [url];
+  }
+}
+
+/**
  * Runtime and migrations want different Supabase poolers.
  *
  * Serving the site means many short-lived serverless connections, which is what
@@ -61,7 +86,9 @@ const email =
     : undefined;
 
 export default buildConfig({
-  ...(siteURL ? { serverURL: siteURL, csrf: [siteURL] } : {}),
+  ...(siteURL
+    ? { serverURL: siteURL, csrf: allowedOrigins(siteURL) }
+    : {}),
 
   admin: {
     user: Users.slug,
