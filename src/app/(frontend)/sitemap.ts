@@ -3,6 +3,13 @@ import { SITE_URL } from '@/lib/site';
 import { getPayloadClient, PUBLISHED_ONLY } from '@/lib/payload';
 import type { Article } from '@/payload-types';
 
+/**
+ * Without this the sitemap is generated once at build time, so an article the
+ * academy publishes never enters it until the next deploy. Publishing does not
+ * deploy anything, so that wait is unbounded. Same window as the article pages.
+ */
+export const revalidate = 300;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
