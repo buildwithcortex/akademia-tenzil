@@ -20,7 +20,7 @@ const amiri = Amiri({
   display: 'swap',
 });
 
-const title = 'Akademia Tenzil — Memorizim dhe Përforcim i Kuranit';
+const title = 'Akademia Tenzil · Memorizim dhe Përforcim i Kuranit';
 const description =
   'Akademia Tenzil ofron një program të strukturuar për memorizimin, përforcimin dhe ruajtjen afatgjatë të Kuranit.';
 

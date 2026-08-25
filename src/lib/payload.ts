@@ -6,7 +6,7 @@ import config from '@payload-config';
  *
  * IMPORTANT: local API calls default to `overrideAccess: true`, which skips
  * access control entirely. A public page must therefore pass
- * `overrideAccess: false` AND filter on `_status` explicitly — relying on the
+ * `overrideAccess: false` AND filter on `_status` explicitly. Relying on the
  * collection's access rule alone silently leaks drafts.
  */
 export const getPayloadClient = async () => getPayload({ config });

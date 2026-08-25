@@ -38,7 +38,7 @@ export function Programs() {
               }}
             />
             <p className={s.panelEyebrow} style={{ color: 'rgba(176,138,76,.95)' }}>
-              01 — Program
+              01 · Program
             </p>
             <div className={s.panelBody}>
               <h3 className={s.name}>Hifz</h3>
@@ -71,7 +71,7 @@ export function Programs() {
               }}
             />
             <p className={s.panelEyebrow} style={{ color: 'var(--gold-dark)' }}>
-              02 — Program
+              02 · Program
             </p>
             <div className={s.panelBody}>
               <h3 className={s.nameItkan}>Itkan</h3>
@@ -112,7 +112,7 @@ export function Programs() {
                   color: 'var(--gold-dark)',
                 }}
               >
-                03 — Në të ardhmen
+                03 · Në të ardhmen
               </p>
               <span
                 style={{
