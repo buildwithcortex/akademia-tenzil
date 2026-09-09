@@ -10,6 +10,20 @@ import { withPayload } from '@payloadcms/next/withPayload';
  * deployed and reachable, served straight from public/.
  */
 const nextConfig: NextConfig = {
+  /**
+   * Ship sharp's native libraries inside every serverless function.
+   *
+   * payload.config imports sharp, so every Payload route (admin, REST, the
+   * apply endpoint) loads it at startup. sharp's .node binary dlopens libvips
+   * from a sibling @img package, a dependency file tracing cannot see because
+   * it is not a JS require. On Vercel that left the binary in the bundle and
+   * the library out of it, and every one of those routes answered 500 with
+   * "libvips-cpp.so: cannot open shared object file".
+   */
+  outputFileTracingIncludes: {
+    '/*': ['./node_modules/@img/**/*', './node_modules/sharp/**/*'],
+  },
+
   async rewrites() {
     return [{ source: '/coming-soon', destination: '/coming-soon.html' }];
   },
