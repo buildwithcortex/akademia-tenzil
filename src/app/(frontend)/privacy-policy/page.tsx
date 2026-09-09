@@ -249,20 +249,10 @@ export default function PrivacyPolicyPage() {
       <h2>The Site: cookies</h2>
       <p>
         The Site sets no analytics or advertising cookies, which is why it shows
-        no cookie banner. Only two strictly necessary cookies exist:
+        no cookie banner. Reading the Site sets no cookie at all. The only one
+        that exists is an <strong>admin session cookie</strong>, set for academy
+        staff who sign in to the admin area, to keep them signed in.
       </p>
-      <ul>
-        <li>
-          <strong>Access cookie:</strong>{' '}while the Site is being built it
-          sits behind a password, and entering it stores a cookie so you are not
-          asked again. The cookie holds a signed token, never the password
-          itself, and it goes away once the Site opens to the public.
-        </li>
-        <li>
-          <strong>Admin session cookie:</strong>{' '}set only for academy staff
-          who sign in to the admin area, to keep them signed in.
-        </li>
-      </ul>
 
       <h2>The Site: where data is stored and for how long</h2>
       <p>
