@@ -3,18 +3,28 @@ import { validate, tooLong, type ApplicationInput } from '@/lib/validation';
 import { getPayloadClient } from '@/lib/payload';
 import { notify } from '@/lib/delivery';
 import { clientKey, rateLimit } from '@/lib/rateLimit';
+import {
+  applicationsForEmail,
+  MAX_PER_EMAIL,
+  throttleAddress,
+} from '@/lib/applyThrottle';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+function rateLimited(retryAfter: number) {
+  return NextResponse.json(
+    { error: 'RATE_LIMITED' },
+    { status: 429, headers: { 'Retry-After': String(retryAfter) } },
+  );
+}
+
 export async function POST(req: Request) {
-  const { ok, retryAfter } = rateLimit(clientKey(req));
-  if (!ok) {
-    return NextResponse.json(
-      { error: 'RATE_LIMITED' },
-      { status: 429, headers: { 'Retry-After': String(retryAfter) } },
-    );
-  }
+  // First line: free, per instance. Stops a tight loop against one warm
+  // function before it costs a database round trip. The real limit is the
+  // shared one below.
+  const local = rateLimit(clientKey(req));
+  if (!local.ok) return rateLimited(local.retryAfter);
 
   let data: Partial<ApplicationInput> & { website?: string };
   try {
@@ -42,7 +52,9 @@ export async function POST(req: Request) {
   const application = {
     emri: data.emri!.trim(),
     mosha: data.mosha!.trim(),
-    email: data.email!.trim(),
+    gjinia: data.gjinia! as 'mashkull' | 'femer',
+    // Lower-cased so the per-email cap cannot be dodged by changing case.
+    email: data.email!.trim().toLowerCase(),
     telefoni: data.telefoni!.trim(),
     programi: data.programi!,
     pervoja: data.pervoja?.trim() || '',
@@ -50,10 +62,33 @@ export async function POST(req: Request) {
     source: 'akademiatenzil.web',
   };
 
+  const payload = await getPayloadClient();
+
+  // Shared limits, checked only once the input is valid so junk requests never
+  // reach the database. A failure here is logged and lets the request through:
+  // if the database is genuinely down the save below fails anyway, and a
+  // hiccup in the counter should not turn away a real applicant.
+  try {
+    const shared = await throttleAddress(payload, clientKey(req));
+    if (!shared.ok) return rateLimited(shared.retryAfter);
+
+    if ((await applicationsForEmail(payload, application.email)) >= MAX_PER_EMAIL) {
+      return NextResponse.json(
+        {
+          errors: {
+            email: `Me këtë email janë dërguar tashmë ${MAX_PER_EMAIL} aplikime.`,
+          },
+        },
+        { status: 429 },
+      );
+    }
+  } catch (err) {
+    console.error('[apply] limit check failed, letting the request through:', err);
+  }
+
   // Storing the application is the part that must not fail. The collection
   // blocks create for everyone, so this writes with overrideAccess.
   try {
-    const payload = await getPayloadClient();
     await payload.create({
       collection: 'applications',
       data: { ...application, status: 'i_ri' },

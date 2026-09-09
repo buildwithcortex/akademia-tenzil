@@ -185,18 +185,19 @@ export default function PrivacyPolicyPage() {
           phone number.
         </li>
         <li>
-          <strong>Application details:</strong>{' '}your age, the programme you
-          are applying for, any previous experience you describe, and your
-          message.
+          <strong>Application details:</strong>{' '}your age, your gender, the
+          programme you are applying for, any previous experience you describe,
+          and your message.
         </li>
       </ul>
       <p>
-        Nothing is added beyond that. Your <strong>IP address</strong>{' '}is read
-        from the request and held in the server&apos;s memory for up to one
-        hour, purely to stop the form being flooded. It is never written to the
-        database and never attached to your application. Our hosting provider
-        also keeps ordinary server logs for security and reliability, as any
-        website does.
+        Nothing is added beyond that. To stop the form being flooded, we keep a
+        count of submissions per <strong>IP address</strong>{' '}for one hour.
+        The address itself is never stored: only a one-way hash of it is, it is
+        deleted once the hour has passed, and it is never attached to your
+        application. We also accept at most five applications from the same
+        email address. Our hosting provider keeps ordinary server logs for
+        security and reliability, as any website does.
       </p>
 
       <h2>The Site: children and parental consent</h2>

@@ -1,7 +1,12 @@
 'use client';
 
 import { useId, useRef, useState } from 'react';
-import { PROGRAMS, validate, type FieldErrors } from '@/lib/validation';
+import {
+  GENDERS,
+  PROGRAMS,
+  validate,
+  type FieldErrors,
+} from '@/lib/validation';
 import { ArrowCircle, Diamonds } from './ui/Motifs';
 import s from './ApplicationForm.module.css';
 
@@ -10,6 +15,7 @@ type Status = 'idle' | 'sending' | 'sent' | 'error';
 const EMPTY = {
   emri: '',
   mosha: '',
+  gjinia: '',
   email: '',
   telefoni: '',
   programi: '',
@@ -18,6 +24,8 @@ const EMPTY = {
 };
 
 const MSG_FAILED = 'Dërgimi nuk u realizua. Provoni përsëri pas një momenti.';
+const MSG_RATE_LIMITED =
+  'Shumë përpjekje nga kjo lidhje. Provoni përsëri pas një ore.';
 
 export function ApplicationForm() {
   const [f, setF] = useState(EMPTY);
@@ -41,13 +49,13 @@ export function ApplicationForm() {
       setStatus('idle');
       setFailMsg('');
       // Focus the first invalid control after React paints the aria state.
-      // The program group is a button set, which can't carry aria-invalid, so
-      // it falls back to focusing the first pill.
+      // The gender and program groups are button sets, which can't carry
+      // aria-invalid, so it falls back to focusing the first pill.
       requestAnimationFrame(() => {
         const form = formRef.current;
         const firstInvalid =
           form?.querySelector<HTMLElement>('[aria-invalid="true"]') ??
-          (errors.programi
+          (errors.gjinia || errors.programi
             ? form?.querySelector<HTMLElement>('fieldset button')
             : null);
         firstInvalid?.focus();
@@ -80,6 +88,11 @@ export function ApplicationForm() {
         if (body?.errors) {
           setErr(body.errors as FieldErrors);
           setStatus('idle');
+          return;
+        }
+        if (body?.error === 'RATE_LIMITED') {
+          setStatus('error');
+          setFailMsg(MSG_RATE_LIMITED);
           return;
         }
         // Anything else is a genuine failure. Never fake a success.
@@ -160,6 +173,24 @@ export function ApplicationForm() {
             error={err.telefoni}
           />
         </div>
+
+        <fieldset className={s.fieldset}>
+          <legend className={s.legend}>Gjinia *</legend>
+          <div className={s.pills}>
+            {GENDERS.map((g) => (
+              <button
+                key={g.value}
+                type="button"
+                className={s.pill}
+                aria-pressed={f.gjinia === g.value}
+                onClick={() => set('gjinia')(g.value)}
+              >
+                {g.label}
+              </button>
+            ))}
+          </div>
+          <span className={s.error}>{err.gjinia ?? ''}</span>
+        </fieldset>
 
         <fieldset className={s.fieldset}>
           <legend className={s.legend}>Programi *</legend>

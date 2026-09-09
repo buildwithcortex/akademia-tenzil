@@ -1,4 +1,4 @@
-import type { ApplicationInput } from './validation';
+import { GENDERS, type ApplicationInput } from './validation';
 import { getPayloadClient } from './payload';
 
 export type ApplicationPayload = ApplicationInput & {
@@ -59,6 +59,7 @@ function asText(p: ApplicationPayload): string {
   return [
     `Emri dhe mbiemri: ${p.emri}`,
     `Mosha: ${p.mosha}`,
+    `Gjinia: ${GENDERS.find((g) => g.value === p.gjinia)?.label ?? p.gjinia}`,
     `Email: ${p.email}`,
     `Numri i telefonit: ${p.telefoni}`,
     `Programi: ${p.programi}`,

@@ -61,13 +61,23 @@ export const Applications: CollectionConfig = {
           type: 'text',
           label: 'Emri dhe mbiemri',
           required: true,
-          admin: { readOnly: true, width: '60%' },
+          admin: { readOnly: true, width: '50%' },
         },
         {
           name: 'mosha',
           type: 'text',
           label: 'Mosha',
-          admin: { readOnly: true, width: '40%' },
+          admin: { readOnly: true, width: '20%' },
+        },
+        {
+          name: 'gjinia',
+          type: 'select',
+          label: 'Gjinia',
+          options: [
+            { label: 'Mashkull', value: 'mashkull' },
+            { label: 'Femër', value: 'femer' },
+          ],
+          admin: { readOnly: true, width: '30%' },
         },
       ],
     },
@@ -79,6 +89,9 @@ export const Applications: CollectionConfig = {
           type: 'email',
           label: 'Email',
           required: true,
+          // /api/apply counts existing applications per address before it
+          // accepts another, so this lookup has to stay cheap.
+          index: true,
           admin: { readOnly: true, width: '50%' },
         },
         {

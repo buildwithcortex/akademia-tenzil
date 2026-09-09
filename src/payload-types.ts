@@ -242,6 +242,7 @@ export interface Application {
   shenime?: string | null;
   emri: string;
   mosha?: string | null;
+  gjinia?: ('mashkull' | 'femer') | null;
   email: string;
   telefoni?: string | null;
   programi?: string | null;
@@ -450,6 +451,7 @@ export interface ApplicationsSelect<T extends boolean = true> {
   shenime?: T;
   emri?: T;
   mosha?: T;
+  gjinia?: T;
   email?: T;
   telefoni?: T;
   programi?: T;
