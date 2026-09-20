@@ -8,6 +8,13 @@ import {
   REST_PUT,
 } from '@payloadcms/next/routes';
 
+/**
+ * Raised for one endpoint: POST /payload-api/subscribers/notify sends the
+ * reopening announcement in batches of about 25 seconds, paced to the mail
+ * provider's rate limit. Everything else here finishes in well under a second.
+ */
+export const maxDuration = 60;
+
 export const GET = REST_GET(config);
 export const POST = REST_POST(config);
 export const DELETE = REST_DELETE(config);

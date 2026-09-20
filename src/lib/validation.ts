@@ -31,7 +31,7 @@ export type FieldErrors = Partial<
   >
 >;
 
-const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
+export const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
 
 export function validate(data: Partial<ApplicationInput>): FieldErrors {
   const e: FieldErrors = {};

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { validate, tooLong, type ApplicationInput } from '@/lib/validation';
 import { getPayloadClient } from '@/lib/payload';
+import { readApplicationState } from '@/lib/applicationState';
 import { notify } from '@/lib/delivery';
 import { clientKey, rateLimit } from '@/lib/rateLimit';
 import {
@@ -63,6 +64,12 @@ export async function POST(req: Request) {
   };
 
   const payload = await getPayloadClient();
+
+  // Closed means closed here too, not just on the page: a hidden form still
+  // accepts a hand-written POST unless the server says no.
+  if (!(await readApplicationState(payload)).open) {
+    return NextResponse.json({ error: 'CLOSED' }, { status: 403 });
+  }
 
   // Shared limits, checked only once the input is valid so junk requests never
   // reach the database. A failure here is logged and lets the request through:

@@ -71,6 +71,7 @@ export interface Config {
     categories: Category;
     media: Media;
     applications: Application;
+    subscribers: Subscriber;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -83,6 +84,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     applications: ApplicationsSelect<false> | ApplicationsSelect<true>;
+    subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -93,8 +95,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'application-settings': ApplicationSetting;
+  };
+  globalsSelect: {
+    'application-settings': ApplicationSettingsSelect<false> | ApplicationSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -253,6 +259,23 @@ export interface Application {
   createdAt: string;
 }
 /**
+ * Personat që duan të njoftohen kur aplikimet të hapen përsëri.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers".
+ */
+export interface Subscriber {
+  id: number;
+  email: string;
+  /**
+   * Bosh derisa t’i dërgohet njoftimi.
+   */
+  njoftuarMe?: string | null;
+  source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -317,6 +340,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'applications';
         value: number | Application;
+      } | null)
+    | ({
+        relationTo: 'subscribers';
+        value: number | Subscriber;
       } | null)
     | ({
         relationTo: 'users';
@@ -463,6 +490,17 @@ export interface ApplicationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers_select".
+ */
+export interface SubscribersSelect<T extends boolean = true> {
+  email?: T;
+  njoftuarMe?: T;
+  source?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -523,6 +561,43 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Hapni ose mbyllni aplikimet. Kur janë të mbyllura, faqja shfaq listën e njoftimeve në vend të formularit.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "application-settings".
+ */
+export interface ApplicationSetting {
+  id: number;
+  /**
+   * Hiqeni shenjën për t’i mbyllur aplikimet. Ndryshimi shfaqet në faqe brenda pak çastesh.
+   */
+  hapur?: boolean | null;
+  mesazhiMbyllur?: string | null;
+  /**
+   * Email-i që u dërgohet personave në listën e njoftimeve kur aplikimet hapen përsëri.
+   */
+  njoftimSubjekti?: string | null;
+  /**
+   * Lidhja për të aplikuar dhe lidhja për çregjistrim shtohen automatikisht në fund.
+   */
+  njoftimTeksti?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "application-settings_select".
+ */
+export interface ApplicationSettingsSelect<T extends boolean = true> {
+  hapur?: T;
+  mesazhiMbyllur?: T;
+  njoftimSubjekti?: T;
+  njoftimTeksti?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

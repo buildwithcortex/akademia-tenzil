@@ -26,6 +26,8 @@ const EMPTY = {
 const MSG_FAILED = 'Dërgimi nuk u realizua. Provoni përsëri pas një momenti.';
 const MSG_RATE_LIMITED =
   'Shumë përpjekje nga kjo lidhje. Provoni përsëri pas një ore.';
+const MSG_CLOSED =
+  'Aplikimet janë mbyllur. Rifreskoni faqen për t’u regjistruar në listën e njoftimeve.';
 
 export function ApplicationForm() {
   const [f, setF] = useState(EMPTY);
@@ -93,6 +95,12 @@ export function ApplicationForm() {
         if (body?.error === 'RATE_LIMITED') {
           setStatus('error');
           setFailMsg(MSG_RATE_LIMITED);
+          return;
+        }
+        // The page can be a few minutes stale when the academy closes.
+        if (body?.error === 'CLOSED') {
+          setStatus('error');
+          setFailMsg(MSG_CLOSED);
           return;
         }
         // Anything else is a genuine failure. Never fake a success.

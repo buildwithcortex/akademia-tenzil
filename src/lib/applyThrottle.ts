@@ -26,9 +26,16 @@ export const MAX_PER_EMAIL = 5;
 
 type ThrottleRow = { hits: number; retry_after: number };
 
-function hashAddress(address: string): string {
+/** Each public form counts separately, so joining the waitlist never eats into
+ *  the allowance for applying, or the other way round. */
+export type ThrottleScope = 'apply' | 'subscribe';
+
+function hashAddress(address: string, scope: ThrottleScope): string {
+  // 'apply' keeps its original unscoped input, so windows already in the table
+  // still match.
+  const input = scope === 'apply' ? address : `${scope}:${address}`;
   return createHash('sha256')
-    .update(`${address}:${process.env.PAYLOAD_SECRET ?? ''}`)
+    .update(`${input}:${process.env.PAYLOAD_SECRET ?? ''}`)
     .digest('hex');
 }
 
@@ -40,8 +47,9 @@ function hashAddress(address: string): string {
 export async function throttleAddress(
   payload: Payload,
   address: string,
+  scope: ThrottleScope = 'apply',
 ): Promise<{ ok: boolean; retryAfter: number }> {
-  const key = hashAddress(address);
+  const key = hashAddress(address, scope);
 
   const result = (await payload.db.execute({
     drizzle: payload.db.drizzle,

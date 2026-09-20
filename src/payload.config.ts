@@ -11,7 +11,9 @@ import { Applications } from '@/collections/Applications';
 import { Articles } from '@/collections/Articles';
 import { Categories } from '@/collections/Categories';
 import { Media } from '@/collections/Media';
+import { Subscribers } from '@/collections/Subscribers';
 import { Users } from '@/collections/Users';
+import { ApplicationSettings } from '@/globals/ApplicationSettings';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -112,7 +114,9 @@ export default buildConfig({
     api: '/payload-api',
   },
 
-  collections: [Articles, Categories, Media, Applications, Users],
+  collections: [Articles, Categories, Media, Applications, Subscribers, Users],
+
+  globals: [ApplicationSettings],
 
   // Nothing in this app uses GraphQL: the site reads through the local API and
   // the admin uses REST. Left on, it publishes a browsable schema explorer at

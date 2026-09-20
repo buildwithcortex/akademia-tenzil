@@ -30,7 +30,7 @@ export default function PrivacyPolicyPage() {
     <LegalShell
       eyebrow="Akademia Tenzil"
       title="Privacy Policy"
-      meta="Last updated: 8 August 2026"
+      meta="Last updated: 20 September 2026"
       lang="en"
       intro={
         <>
@@ -199,6 +199,13 @@ export default function PrivacyPolicyPage() {
         email address. Our hosting provider keeps ordinary server logs for
         security and reliability, as any website does.
       </p>
+      <p>
+        When applications are closed, the form is replaced by a waiting list.
+        Joining it stores your <strong>email address</strong>{' '}and nothing
+        else, and we use it for one thing: a single email telling you that
+        applications have reopened. That email carries a link to remove
+        yourself, and we delete the address within 12 months of sending it.
+      </p>
 
       <h2>The Site: children and parental consent</h2>
       <p>
@@ -237,8 +244,9 @@ export default function PrivacyPolicyPage() {
           uploaded images.
         </li>
         <li>
-          <strong>Resend:</strong>{' '}delivers the email telling the academy that
-          an application has arrived.
+          <strong>Resend:</strong>{' '}delivers two kinds of email: the one telling
+          the academy that an application has arrived, and the announcement sent
+          to the waiting list.
         </li>
       </ul>
       <p>

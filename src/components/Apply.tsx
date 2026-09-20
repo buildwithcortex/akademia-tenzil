@@ -1,9 +1,21 @@
 import Image from 'next/image';
+import { getPayloadClient } from '@/lib/payload';
+import { readApplicationState } from '@/lib/applicationState';
 import { ApplicationForm } from './ApplicationForm';
+import { WaitlistForm } from './WaitlistForm';
 import { Diamonds, Eyebrow } from './ui/Motifs';
 import s from './Apply.module.css';
 
-export function Apply() {
+/**
+ * The closing section. Open, it carries the application form; closed, the same
+ * panel becomes the waitlist and the paragraph says so. Which one is decided by
+ * the "Hapja e aplikimeve" switch in the admin.
+ */
+export async function Apply() {
+  const { open, closedMessage } = await readApplicationState(
+    await getPayloadClient(),
+  );
+
   return (
     <section id="apliko" aria-labelledby="apliko-title" className={s.section}>
       <svg
@@ -31,9 +43,9 @@ export function Apply() {
               <span className="tz-em-gold">që ndërtohet për të qëndruar.</span>
             </h2>
             <p data-reveal="1" className={s.body}>
-              Nëse dëshironi të ndiqni një program të strukturuar të memorizimit
-              dhe përforcimit të Kuranit, aplikoni për t’u bërë pjesë e
-              Akademisë Tenzil.
+              {open
+                ? 'Nëse dëshironi të ndiqni një program të strukturuar të memorizimit dhe përforcimit të Kuranit, aplikoni për t’u bërë pjesë e Akademisë Tenzil.'
+                : closedMessage}
             </p>
             <div data-reveal="1" className={s.mark}>
               <Image
@@ -48,7 +60,7 @@ export function Apply() {
             </div>
           </div>
 
-          <ApplicationForm />
+          {open ? <ApplicationForm /> : <WaitlistForm />}
         </div>
       </div>
     </section>

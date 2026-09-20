@@ -1,0 +1,27 @@
+/* Reads Payload's own theme variables and sets none, so it follows light and
+   dark without touching the panel's colours (see custom.scss for why). */
+
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 4px;
+  background: var(--theme-elevation-50);
+}
+
+.counts {
+  margin: 0;
+  font-size: 15px;
+  color: var(--theme-text);
+}
+
+.hint {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--theme-elevation-600);
+}

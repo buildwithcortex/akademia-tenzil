@@ -13,6 +13,13 @@ import { PageMotion } from '@/components/motion/PageMotion';
 import { PaperGrain } from '@/components/ui/Motifs';
 import { JsonLd } from '@/components/JsonLd';
 
+/**
+ * The Apply section reads the open/closed switch from the database. Saving that
+ * switch revalidates this page at once; the timer is only the safety net for a
+ * revalidation that somehow never arrives.
+ */
+export const revalidate = 300;
+
 export default function Page() {
   return (
     <>
