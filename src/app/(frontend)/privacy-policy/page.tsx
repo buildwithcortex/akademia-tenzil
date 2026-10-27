@@ -4,8 +4,8 @@ import { LegalShell } from '@/components/LegalShell';
 import s from '@/components/LegalPage.module.css';
 
 /**
- * The iOS app's Privacy Policy URL in App Store Connect points at this exact
- * path. The path must not change.
+ * The iOS app's Privacy Policy URL in App Store Connect and the Android app's
+ * in Google Play Console point at this exact path. The path must not change.
  *
  * The App sections are carried over verbatim from the previous static page and
  * must stay that way: they are what the App Store listing points at. The Site
@@ -30,7 +30,7 @@ export default function PrivacyPolicyPage() {
     <LegalShell
       eyebrow="Akademia Tenzil"
       title="Privacy Policy"
-      meta="Last updated: 20 September 2026"
+      meta="Last updated: 27 October 2026"
       lang="en"
       intro={
         <>
@@ -59,7 +59,8 @@ export default function PrivacyPolicyPage() {
       <p>
         This policy covers two separate things. The{' '}
         <strong>Akademia Tenzil app</strong>{' '}(&quot;the App&quot;) is the
-        private iOS app used by the school&apos;s teachers and their students.
+        private app for iPhone, iPad and Android used by the school&apos;s
+        teachers and their students.
         The <strong>akademiatenzil.com website</strong>{' '}(&quot;the
         Site&quot;) is the public website, which presents the academy,
         publishes articles, and carries an application form. The App is
@@ -149,6 +150,12 @@ export default function PrivacyPolicyPage() {
           excluded from device backups. Optional Face ID or Touch ID sign-in
           keeps saved credentials in the device&apos;s secure Keychain.
         </li>
+        <li>
+          On Android, the sign-in session is encrypted with a key held in the
+          Android Keystore, and the App&apos;s data is excluded from device
+          backups. Optional fingerprint or face sign-in keeps saved credentials
+          encrypted with a key that opens only after biometric verification.
+        </li>
       </ul>
 
       <h2>Sharing</h2>
@@ -156,7 +163,8 @@ export default function PrivacyPolicyPage() {
         We do <strong>not</strong>{' '}sell, rent, or share personal information
         with any third party for marketing or any other purpose. Data is
         processed only by our hosting provider (Supabase) strictly to store and
-        serve it for the App, and by Apple&apos;s push notification service
+        serve it for the App, and by Apple&apos;s push notification service (on
+        iPhone and iPad) and Google&apos;s Firebase Cloud Messaging (on Android)
         strictly to deliver notifications.
       </p>
 
